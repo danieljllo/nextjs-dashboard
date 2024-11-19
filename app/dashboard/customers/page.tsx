@@ -1,6 +1,5 @@
 import { Metadata } from 'next';
 import CustomersTable from '@/app/ui/customers/table';
-import Search from '@/app/ui/search';
 import { fetchFilteredCustomers } from '@/app/lib/data';
 
 export const metadata: Metadata = {
