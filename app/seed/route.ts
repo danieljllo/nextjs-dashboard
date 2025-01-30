@@ -66,7 +66,12 @@ async function seedCustomers() {
       image_url VARCHAR(255) NOT NULL
     );
   `;
-
+  
+  await client.sql`
+    ALTER TABLE customers
+    ADD alias VARCHAR(255);
+  `;
+  
   const insertedCustomers = await Promise.all(
     customers.map(
       (customer) => client.sql`
