@@ -11,6 +11,7 @@ export default function LoginPage() {
           </div>
         </div>
         <LoginForm />
+        Credentials in .env.local
       </div>
     </main>
   );
