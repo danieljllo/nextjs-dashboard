@@ -131,10 +131,10 @@ export async function GET() {
   try {
     console.log("Begin Database seed");
     await client.sql`BEGIN`;
-    //await seedUsers();
-    //await seedCustomers();
-    //await seedInvoices();
-    //await seedRevenue();
+    await seedUsers();
+    await seedCustomers();
+    await seedInvoices();
+    await seedRevenue();
     await seedBarrels();
     await client.sql`COMMIT`;
     console.log("Database seeded successfully");
