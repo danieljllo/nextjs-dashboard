@@ -144,4 +144,16 @@ const revenue = [
   { month: 'Dec', revenue: 4800 },
 ];
 
-export { users, customers, invoices, revenue };
+const barrels = [
+  {
+    //id: '410544b2-4001-4271-9855-fec4b6a6442a',
+    barrelType_id: 'BTP1',
+    brand_id: 'Kegland',
+    purchase_date: '2025-06-05',
+    provider_id: 'PRO1',
+    description: '',
+    qr: 'test123',
+  },
+];
+
+export { users, customers, invoices, revenue, barrels };

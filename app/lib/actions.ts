@@ -137,3 +137,26 @@ export async function updateInvoice(id: string, prevState: State, formData: Form
       throw error;
     }
   }
+
+  export async function createBarrel(qr: string) {
+    console.log("Inserting new barrel from QR");
+    console.log(qr);
+    const date = new Date().toISOString().split('T')[0];
+   
+    // Insert data into the database
+    try {
+      await sql`
+        INSERT INTO barrels (barrelType_id, purchase_date, qr)
+        VALUES ('BTP2', ${date}, ${qr})
+      `;
+    } catch {
+      // If a database error occurs, return a more specific error.
+      return {
+        message: 'Database Error: Failed to Create Invoice.',
+      };
+    }
+   
+    // Revalidate the cache for the invoices page and redirect the user.
+    //revalidatePath('/dashboard/invoices');
+    //redirect('/dashboard/invoices');
+  }

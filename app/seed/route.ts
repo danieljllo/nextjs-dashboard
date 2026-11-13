@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import { db } from '@vercel/postgres';
-import { invoices, customers, revenue, users } from '../lib/placeholder-data';
+import { invoices, customers, revenue, users, barrels } from '../lib/placeholder-data';
 
 const client = await db.connect();
 
@@ -101,15 +101,43 @@ async function seedRevenue() {
   return insertedRevenue;
 }
 
+async function seedBarrels() {
+  await client.sql`
+    CREATE TABLE IF NOT EXISTS barrels (
+      id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+      barrelType_id TEXT NOT NULL,
+      brand_id TEXT,
+      purchase_date DATE,
+      provider_id TEXT,
+      description TEXT,
+      qr TEXT
+    );
+  `;
+
+  const insertedBarrels = await Promise.all(
+    barrels.map(async (barrel) => {
+      return client.sql`
+        INSERT INTO barrels (barrelType_id, brand_id, purchase_date, provider_id, description, qr)
+        VALUES (${barrel.barrelType_id}, ${barrel.brand_id}, ${barrel.purchase_date}, ${barrel.provider_id}, ${barrel.description}, ${barrel.qr})
+        ;
+      `;
+    }),
+  );
+
+  return insertedBarrels;
+}
+
 export async function GET() {
   try {
+    console.log("Begin Database seed");
     await client.sql`BEGIN`;
-    await seedUsers();
-    await seedCustomers();
-    await seedInvoices();
-    await seedRevenue();
+    //await seedUsers();
+    //await seedCustomers();
+    //await seedInvoices();
+    //await seedRevenue();
+    await seedBarrels();
     await client.sql`COMMIT`;
-
+    console.log("Database seeded successfully");
     return Response.json({ message: 'Database seeded successfully' });
   } catch (error) {
     await client.sql`ROLLBACK`;
